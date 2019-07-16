@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const middleware = require('../../middleware');
 
-const User = require('../models/User');
+const User = require('../../models/User');
 
-// GET /user
+// GET /api/user
 // Return the currently logged in user's database information
-router.get('/', (req, res, next) => {
+router.get('/', middleware.validateLogin, (req, res, next) => {
 	res
-		.json('The user route!')
+		.json(req.user)
 		.status(200)
 		.end();
 });
 
-// PORT /user
+// POST /api/user
 // Creates a user
 router.post('/', (req, res, next) => {
 	User.create(req.body, err => {
@@ -29,9 +30,9 @@ router.post('/', (req, res, next) => {
 
 // PUT /user
 // Updates user's movie favorites
-router.put('/favorites', (req, res, next) => {
-	User.findOneAndUpdate(
-		req.body.emailAddress,
+router.put('/favorites', middleware.validateLogin, (req, res, next) => {
+	User.findByIdAndUpdate(
+		req.user._id,
 		{ $addToSet: { favoriteMovies: req.body.favoriteMovies } },
 		{ new: true },
 		(err, user) => {

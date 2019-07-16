@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const user = require('./routes/user');
+const user = require('./routes/api/user');
 
 // Set port
 const port = process.env.PORT || 3001;
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => res.send('Hello from the root route.'));
-app.use('/user', user);
+app.use('/api/user', user);
 
 // send 404 if no other route matched
 app.use((req, res) => {
