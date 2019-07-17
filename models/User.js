@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const config = require('config');
+const jwt = require('jsonwebtoken');
+
 // Schema for the Users
 // Validation is used on fullName, emailAddress, password
 const UserSchema = new mongoose.Schema({
@@ -31,6 +34,7 @@ UserSchema.pre('save', function(next) {
 		if (err) return next(err);
 
 		user.password = hash;
+
 		next();
 	});
 });
@@ -38,14 +42,13 @@ UserSchema.pre('save', function(next) {
 UserSchema.statics.authenticate = function(email, password, callback) {
 	// Find the user by the unique email address
 	this.findOne({ emailAddress: email }).exec(function(err, user) {
-		// If there is an error, it is sent to the callback function
 		// where it was called. Same goes for no user being found in the database
 		if (err) {
-			callback(err);
+			return callback(err);
 		} else if (!user) {
 			const err = new Error('User not found.');
 			err.status = 401;
-			callback(err);
+			return callback(err);
 		}
 
 		// Use bcrypt's compare method
@@ -54,13 +57,31 @@ UserSchema.statics.authenticate = function(email, password, callback) {
 			// callback function, the since there is no error in this case, null is passed as the
 			// first parameter
 			if (result) {
-				return callback(null, user);
+				jwt.sign(
+					{ id: user.id },
+					config.get('jwtSecret'),
+					{ expiresIn: 3600 },
+					(err, token) => {
+						if (err) callback(err);
+						const data = {
+							success: true,
+							token,
+							user: {
+								id: user.id,
+								name: user.name,
+								emailAddress: user.emailAddress
+							}
+						};
+
+						return callback(null, data);
+					}
+				);
 			} else {
 				// If there is no result, that means the passwords did not match.
 				// Throw a 401 error and pass to the callback
 				const err = new Error('Passwords do not match.');
 				err.status = 401;
-				callback(err);
+				return callback(err);
 			}
 		});
 	});

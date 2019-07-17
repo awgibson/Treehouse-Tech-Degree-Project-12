@@ -1,38 +1,69 @@
 const express = require('express');
 const router = express.Router();
-const middleware = require('../../middleware');
 
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const User = require('../../models/User');
+const middleware = require('../../middleware/');
 
-// GET /api/user
-// Return the currently logged in user's database information
-router.get('/', middleware.validateLogin, (req, res, next) => {
-	res
-		.json(req.user)
-		.status(200)
-		.end();
+// @@route  GET /api/user
+// @@desc   Returns user information
+// @@access Private
+router.get('/', middleware.auth, (req, res, next) => {
+	const { id } = req.user;
+
+	User.findById(id, '-password', (err, user) => {
+		if (err) return next(err);
+
+		res.json(user);
+	});
 });
 
-// POST /api/user
-// Creates a user
-router.post('/', (req, res, next) => {
-	User.create(req.body, err => {
+// POST /api/user/auth
+// authorizes user
+router.post('/auth', (req, res, next) => {
+	User.authenticate(req.body.emailAddress, req.body.password, (err, data) => {
+		if (err) return next(err);
+		res.json(data);
+	});
+});
+
+// @@ POST /api/user/register
+// @@ desc Creates a user
+router.post('/register', (req, res, next) => {
+	const { name, emailAddress, password } = req.body;
+	User.create({ name, emailAddress, password }, (err, user) => {
 		if (err) {
 			next(err);
 		} else {
-			res
-				.location('/')
-				.status(201)
-				.end();
+			jwt.sign(
+				{ id: user.id },
+				config.get('jwtSecret'),
+				{ expiresIn: 3600 },
+				(err, token) => {
+					if (err) next(err);
+
+					res.json({
+						success: true,
+						token,
+						user: {
+							id: user.id,
+							name: user.name,
+							emailAddress: user.emailAddress
+						}
+					});
+				}
+			);
 		}
 	});
 });
 
 // PUT /user
 // Updates user's movie favorites
-router.put('/favorites', middleware.validateLogin, (req, res, next) => {
+router.put('/favorites', middleware.auth, (req, res, next) => {
+	console.log(req.user.id);
 	User.findByIdAndUpdate(
-		req.user._id,
+		req.user.id,
 		{ $addToSet: { favoriteMovies: req.body.favoriteMovies } },
 		{ new: true },
 		(err, user) => {

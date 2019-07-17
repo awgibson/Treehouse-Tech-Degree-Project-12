@@ -2,17 +2,15 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-
-const user = require('./routes/api/user');
+const config = require('config');
 
 // Set port
 const port = process.env.PORT || 3001;
 
 // Connect to database
-mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/th-movie-project', {
-	useNewUrlParser: true
+mongoose.connect(config.get('mongoURI'), {
+	useNewUrlParser: true,
+	useCreateIndex: true
 });
 
 // Set console messages for connection status // errors
@@ -23,11 +21,11 @@ db.once('open', () => console.log('Database connected...'));
 // morgan gives us http request logging
 app.use(morgan('dev'));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Bodyparser
+app.use(express.json());
 
 app.get('/', (req, res) => res.send('Hello from the root route.'));
-app.use('/api/user', user);
+app.use('/api/user', require('./routes/api/user'));
 
 // send 404 if no other route matched
 app.use((req, res) => {
