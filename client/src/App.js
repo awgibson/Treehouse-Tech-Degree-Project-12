@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import Login from './components/Login';
+import Navbar from './components/Navbar';
+import Results from './components/Results';
 
 function App() {
 	return (
-		<div className="container bg-primary x-auto">
-			<p className="text-center">test</p>
-			<Login />
+		<div className="container h-100 bg-light">
+			<Navbar />
+			<Results />
 		</div>
 	);
 }
