@@ -8,7 +8,7 @@ export default class Favorites extends Component {
 				<div
 					className="modal fade"
 					id="FavoritesModal"
-					tabindex="-1"
+					tabIndex="-1"
 					role="dialog"
 					aria-labelledby="exampleModalCenterTitle"
 					aria-hidden="true"
@@ -25,7 +25,7 @@ export default class Favorites extends Component {
 								Favorites go here
 								<button
 									type="button"
-									class="btn btn-lg btn-danger w-100"
+									className="btn btn-lg btn-danger w-100"
 									data-dismiss="modal"
 								>
 									Close

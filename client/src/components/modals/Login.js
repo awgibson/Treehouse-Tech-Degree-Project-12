@@ -8,7 +8,7 @@ export default class Login extends Component {
 				<div
 					className="modal fade"
 					id="LoginModal"
-					tabindex="-1"
+					tabIndex="-1"
 					role="dialog"
 					aria-labelledby="exampleModalCenterTitle"
 					aria-hidden="true"
@@ -24,21 +24,21 @@ export default class Login extends Component {
 								{/* Form  */}
 								<form>
 									<div className="form-group">
-										<label for="emailAddress">Email address: </label>
+										<label htmlFor="emailAddress">Email address: </label>
 										<input
 											type="email"
 											className="form-control"
-											id="emailAddress"
+											id="emailAddressLogin"
 											aria-describedby="emailHelp"
 											placeholder="Enter email"
 										/>
 									</div>
 									<div className="form-group">
-										<label for="password">Password: </label>
+										<label htmlFor="password">Password: </label>
 										<input
 											type="password"
 											className="form-control"
-											id="password"
+											id="passwordLogin"
 											placeholder="Password"
 										/>
 									</div>
@@ -51,7 +51,7 @@ export default class Login extends Component {
 									</button>
 									<button
 										type="button"
-										class="btn btn-lg btn-danger w-100"
+										className="btn btn-lg btn-danger w-100"
 										data-dismiss="modal"
 									>
 										Close

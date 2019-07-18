@@ -2,12 +2,17 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Results from './components/Results';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 function App() {
 	return (
-		<div className="container h-100 bg-light">
-			<Navbar />
-			<Results />
-		</div>
+		<Provider store={store}>
+			<div className="container h-100 bg-light">
+				<Navbar />
+				<Results />
+			</div>
+		</Provider>
 	);
 }
 

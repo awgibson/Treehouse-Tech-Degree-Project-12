@@ -1,7 +1,40 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getMovie } from '../actions/movieActions';
+import PropTypes from 'prop-types';
 
-export default class Results extends Component {
+class Results extends Component {
+	componentDidMount() {
+		this.props.getMovie();
+	}
+
 	render() {
-		return <div className="container">test</div>;
+		const { movie } = this.props.movie;
+		return (
+			<div className="container row">
+				<div className="col">
+					<h5>{movie.title}</h5>
+					<ul>
+						<li>{movie.title}</li>
+						<li>{movie.year}</li>
+						<li>{movie.director}</li>
+					</ul>
+				</div>
+			</div>
+		);
 	}
 }
+
+Results.propTypes = {
+	getMovie: PropTypes.func.isRequired,
+	movie: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+	movie: state
+});
+
+export default connect(
+	mapStateToProps,
+	{ getMovie }
+)(Results);
