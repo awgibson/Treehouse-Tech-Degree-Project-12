@@ -2,24 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMovie } from '../actions/movieActions';
 import PropTypes from 'prop-types';
+import Movie from './Movie';
+import Greeting from './Greeting';
+
+import SearchError from './SearchError';
 
 class Results extends Component {
-	componentDidMount() {
-		this.props.getMovie();
-	}
-
 	render() {
 		const { movie } = this.props.movie;
 		return (
-			<div className="container row">
-				<div className="col">
-					<h5>{movie.title}</h5>
-					<ul>
-						<li>{movie.title}</li>
-						<li>{movie.year}</li>
-						<li>{movie.director}</li>
-					</ul>
-				</div>
+			<div>
+				{/* Shows loading message if loading is true */}
+
+				{/* If there are search results, the movie component is displayed */}
+				{movie.data === undefined ? <Greeting /> : <Movie />}
+				{/* End everything related to the OMDB component */}
 			</div>
 		);
 	}

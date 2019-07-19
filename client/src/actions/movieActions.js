@@ -1,7 +1,34 @@
-import { GET_MOVIE } from './types';
+import { GET_MOVIE, MOVIE_LOADING } from './types';
+import axios from 'axios';
+import keys from '../config/keys';
 
-export const getMovie = () => {
+export const getMovie = search => dispatch => {
+	dispatch(setItemsLoading());
+	axios
+		.get(`http://www.omdbapi.com/?s=${search}&apikey=${keys.OMDB_KEY}`)
+		.then(res =>
+			axios.get(
+				`http://www.omdbapi.com/?i=${res.data.Search[0].imdbID}&apikey=${
+					keys.OMDB_KEY
+				}`
+			)
+		)
+		.then(res =>
+			dispatch({
+				type: GET_MOVIE,
+				payload: res.data
+			})
+		)
+		.catch(err =>
+			dispatch({
+				type: GET_MOVIE,
+				payload: false
+			})
+		);
+};
+
+export const setItemsLoading = () => {
 	return {
-		type: GET_MOVIE
+		type: MOVIE_LOADING
 	};
 };

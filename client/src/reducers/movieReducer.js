@@ -1,16 +1,20 @@
-import { GET_MOVIE } from '../actions/types';
+import { GET_MOVIE, MOVIE_LOADING } from '../actions/types';
 
 const initialState = {
-	title: 'Predator',
-	year: '1111',
-	director: 'Awesome director'
+	loading: false
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_MOVIE:
 			return {
-				...state
+				data: action.payload,
+				loading: false
+			};
+		case MOVIE_LOADING:
+			return {
+				...state,
+				loading: true
 			};
 		default:
 			return state;
