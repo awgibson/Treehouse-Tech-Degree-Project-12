@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMovie } from '../actions/movieActions';
+import { getSoundtrack } from '../actions/soundtrackActions';
+
 import PropTypes from 'prop-types';
 
 class Search extends Component {
@@ -17,6 +19,7 @@ class Search extends Component {
 
 		const movieSearch = this.state.search;
 		this.props.getMovie(movieSearch);
+		// this.props.getSoundtrack(movieSearch);
 	};
 
 	render() {
@@ -50,5 +53,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getMovie }
+	{ getMovie, getSoundtrack }
 )(Search);

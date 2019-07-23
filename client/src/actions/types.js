@@ -1,2 +1,4 @@
 export const GET_MOVIE = 'GET_MOVIE';
 export const MOVIE_LOADING = 'MOVIE_LOADING';
+export const GET_SOUNDTRACK = 'GET_SOUNDTRACK';
+export const SOUNDTRACK_LOADING = 'SOUNDTRACK_LOADING';

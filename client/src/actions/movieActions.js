@@ -1,4 +1,5 @@
 import { GET_MOVIE, MOVIE_LOADING } from './types';
+import { getSoundtrack } from './soundtrackActions';
 import axios from 'axios';
 import keys from '../config/keys';
 
@@ -19,6 +20,9 @@ export const getMovie = search => dispatch => {
 				payload: res.data
 			})
 		)
+		.then(res => {
+			dispatch(getSoundtrack(res.payload.Title));
+		})
 		.catch(err =>
 			dispatch({
 				type: GET_MOVIE,
