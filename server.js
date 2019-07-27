@@ -27,6 +27,7 @@ app.use(express.json());
 app.get('/', (req, res) => res.send('Hello from the root route.'));
 app.use('/api/user', require('./routes/api/user'));
 app.use('/request/spotify', require('./routes/request/spotify'));
+app.use('/request/giphy', require('./routes/request/giphy'));
 
 // send 404 if no other route matched
 app.use((req, res) => {
