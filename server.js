@@ -44,9 +44,7 @@ app.use((err, req, res, next) => {
 	if (err.name === 'MongoError' && err.code === 11000) {
 		res.status(err.status || 500).json(err);
 	} else {
-		res.status(err.status || 500).json({
-			error: { message: err.message, status: err.status }
-		});
+		res.status(err.status || 500).json(err.message);
 	}
 });
 

@@ -12,7 +12,7 @@ const middleware = require('../../middleware/');
 router.get('/', middleware.auth, (req, res, next) => {
 	const { id } = req.user;
 
-	User.findById(id, '-passwordnp', (err, user) => {
+	User.findById(id, '-password', (err, user) => {
 		if (err) return next(err);
 
 		res.json(user);

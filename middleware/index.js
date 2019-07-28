@@ -8,7 +8,7 @@ function auth(req, res, next) {
 	if (!token) {
 		const err = new Error('No token, please login again.');
 		err.status = 401;
-		next(err);
+		return next(err);
 	}
 
 	try {
@@ -20,7 +20,7 @@ function auth(req, res, next) {
 	} catch (err) {
 		err.message = 'Login token is invalid. Please login again.';
 		err.status = 401;
-		next(err);
+		return next(err);
 	}
 }
 
