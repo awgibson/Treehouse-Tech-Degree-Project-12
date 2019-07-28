@@ -76,9 +76,11 @@ export const tokenConfig = getState => {
 	// Get the JWT token from local storage
 	const token = getState().auth.token;
 
+	console.log(token);
+
 	// Headers
 	const config = {
-		header: {
+		headers: {
 			'Content-type': 'application/json'
 		}
 	};
