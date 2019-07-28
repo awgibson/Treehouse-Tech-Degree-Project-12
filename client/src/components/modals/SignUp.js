@@ -1,6 +1,43 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { register } from '../../actions/authActions';
+import { clearErrors } from '../../actions/errorActions';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
+	state = {};
+
+	onChange = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	onSubmit = e => {
+		// Prevent default browser behavior
+		e.preventDefault();
+
+		// Create an object for the new user request
+		const { name, emailAddress, password } = this.state;
+		const user = {
+			name,
+			emailAddress,
+			password
+		};
+
+		// Send registration request to server and database
+		this.props.register(user);
+	};
+
+	componentDidUpdate(prevProps) {
+		const { error } = this.props;
+		if (error !== prevProps.error) {
+			if (error.id === 'REGISTER_FAIL') {
+				this.setState({ message: error.message });
+			} else {
+				this.setState({ message: null });
+			}
+		}
+	}
+
 	render() {
 		return (
 			// button
@@ -22,8 +59,14 @@ export default class SignUp extends Component {
 
 							{/* Modal body */}
 							<div className="modal-body">
+								{this.state.message ? (
+									<div className="alert alert-danger" role="alert">
+										{this.state.message}
+									</div>
+								) : null}
+
 								{/* Form  */}
-								<form>
+								<form onSubmit={this.onSubmit}>
 									<div className="form-group">
 										<label htmlFor="name">Name: </label>
 										<input
@@ -31,6 +74,8 @@ export default class SignUp extends Component {
 											className="form-control"
 											id="name"
 											placeholder="Enter name"
+											name="name"
+											onChange={this.onChange}
 										/>
 									</div>
 
@@ -42,6 +87,8 @@ export default class SignUp extends Component {
 											id="emailAddressSignUp"
 											aria-describedby="emailHelp"
 											placeholder="Enter email"
+											name="emailAddress"
+											onChange={this.onChange}
 										/>
 									</div>
 									<div className="form-group">
@@ -51,12 +98,15 @@ export default class SignUp extends Component {
 											className="form-control"
 											id="passwordSignUp"
 											placeholder="Password"
+											name="password"
+											onChange={this.onChange}
 										/>
 									</div>
 									<hr />
 									<button
 										type="submit"
 										className="btn btn-lg btn-success w-100 mb-3"
+										id="registrationSubmit"
 									>
 										Submit
 									</button>
@@ -64,6 +114,7 @@ export default class SignUp extends Component {
 										type="button"
 										className="btn btn-lg btn-danger w-100"
 										data-dismiss="modal"
+										onClick={this.props.clearErrors}
 									>
 										Close
 									</button>
@@ -79,3 +130,20 @@ export default class SignUp extends Component {
 		);
 	}
 }
+
+const mapStateToProps = state => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error
+});
+
+SignUp.propTypes = {
+	isAuthenticated: PropTypes.bool,
+	error: PropTypes.object.isRequired,
+	register: PropTypes.func.isRequired,
+	clearErrors: PropTypes.func.isRequired
+};
+
+export default connect(
+	mapStateToProps,
+	{ register, clearErrors }
+)(SignUp);

@@ -20,7 +20,7 @@ function auth(req, res, next) {
 	} catch (err) {
 		err.message = 'Login token is invalid. Please login again.';
 		err.status = 401;
-		return next(err);
+		next(err);
 	}
 }
 

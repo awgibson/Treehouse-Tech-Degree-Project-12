@@ -3,6 +3,7 @@ import Login from './modals/Login';
 import SignUp from './modals/SignUp';
 import Favorites from './modals/Favorites';
 import Search from './Search';
+import Logout from './Logout';
 
 export default class Navbar extends Component {
 	render() {
@@ -43,6 +44,7 @@ export default class Navbar extends Component {
 							>
 								Create Account
 							</button>
+							<Logout />
 						</div>
 					</div>
 				</div>

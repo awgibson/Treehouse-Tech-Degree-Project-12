@@ -34,16 +34,16 @@ router.post('/register', (req, res, next) => {
 	const { name, emailAddress, password } = req.body;
 	User.create({ name, emailAddress, password }, (err, user) => {
 		if (err) {
-			next(err);
+			return next(err);
 		} else {
 			jwt.sign(
 				{ id: user.id },
 				config.get('jwtSecret'),
 				{ expiresIn: 3600 },
 				(err, token) => {
-					if (err) next(err);
+					if (err) return next(err);
 
-					res.json({
+					return res.json({
 						success: true,
 						token,
 						user: {
