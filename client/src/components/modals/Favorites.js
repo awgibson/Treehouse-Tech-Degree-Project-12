@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Favorites extends Component {
+class Favorites extends Component {
 	render() {
+		const { user } = this.props;
+
 		return (
-			<div>
+			<>
+				<button
+					type="button"
+					className="btn btn-primary"
+					data-toggle="modal"
+					data-target="#FavoritesModal"
+				>
+					{user.name}'s Favorites
+				</button>
 				{/* modal */}
 				<div
 					className="modal fade"
@@ -36,7 +48,20 @@ export default class Favorites extends Component {
 						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }
+
+const mapStateToProps = state => ({
+	user: state.auth.user
+});
+
+Favorites.propTypes = {
+	user: PropTypes.object
+};
+
+export default connect(
+	mapStateToProps,
+	null
+)(Favorites);

@@ -22,6 +22,11 @@ router.get('/', middleware.auth, (req, res, next) => {
 // POST /api/user/auth
 // authorizes user
 router.post('/auth', (req, res, next) => {
+	if (!req.body.emailAddress || !req.body.password) {
+		const err = new Error('Please provide both an email address and password');
+		return next(err);
+	}
+
 	User.authenticate(req.body.emailAddress, req.body.password, (err, data) => {
 		if (err) return next(err);
 		res.json(data);

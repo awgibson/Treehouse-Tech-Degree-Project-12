@@ -24,6 +24,7 @@
 		"spotify-web-api-node": "^4.0.0"
 	},
 	"devDependencies": {
+		"jshint": "^2.10.2",
 		"nodemon": "^1.19.1"
 	}
 }

@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import Login from './modals/Login';
 import SignUp from './modals/SignUp';
 import Favorites from './modals/Favorites';
 import Search from './Search';
 import Logout from './Logout';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
 	render() {
+		const { isAuthenticated } = this.props;
+
+		const authNav = (
+			<>
+				<Favorites />
+				<Logout />
+			</>
+		);
+
+		const guestNav = (
+			<>
+				<Login />
+				<SignUp />
+			</>
+		);
 		return (
 			<div>
 				<div className="row bg-dark p-4">
@@ -20,40 +38,24 @@ export default class Navbar extends Component {
 				<div className="row bg-info pb-2">
 					<div className="col-sm text-center">
 						<div className="btn-group btn-group-lg" role="group">
-							<button
-								type="button"
-								className="btn btn-primary"
-								data-toggle="modal"
-								data-target="#FavoritesModal"
-							>
-								Favorites
-							</button>
-							<button
-								type="button"
-								className="btn btn-success"
-								data-toggle="modal"
-								data-target="#LoginModal"
-							>
-								Login
-							</button>
-							<button
-								type="button"
-								className="btn btn-danger"
-								data-toggle="modal"
-								data-target="#SignUpModal"
-							>
-								Create Account
-							</button>
-							<Logout />
+							{isAuthenticated ? authNav : guestNav}
 						</div>
 					</div>
 				</div>
-
-				<Login />
-				<SignUp />
-
-				<Favorites />
 			</div>
 		);
 	}
 }
+
+const mapStateToProps = state => ({
+	isAuthenticated: state.auth.isAuthenticated
+});
+
+Navbar.propTypes = {
+	isAuthenticated: PropTypes.bool
+};
+
+export default connect(
+	mapStateToProps,
+	null
+)(Navbar);

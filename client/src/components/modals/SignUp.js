@@ -41,7 +41,15 @@ class SignUp extends Component {
 	render() {
 		return (
 			// button
-			<div>
+			<>
+				<button
+					type="button"
+					className="btn btn-danger"
+					data-toggle="modal"
+					data-target="#SignUpModal"
+				>
+					Create Account
+				</button>
 				{/* modal */}
 				<div
 					className="modal fade"
@@ -59,6 +67,7 @@ class SignUp extends Component {
 
 							{/* Modal body */}
 							<div className="modal-body">
+								{/* Displays errors if there is an error */}
 								{this.state.message ? (
 									<div className="alert alert-danger" role="alert">
 										{this.state.message}
@@ -126,7 +135,7 @@ class SignUp extends Component {
 						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }
