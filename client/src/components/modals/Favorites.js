@@ -1,53 +1,77 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// Reactstrap components
+import {
+	Button,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	Alert,
+	Form,
+	FormGroup,
+	Label,
+	Input
+} from 'reactstrap';
+
 class Favorites extends Component {
+	state = {
+		modal: false
+	};
+
+	toggle = () => {
+		//Reverses modal state
+		this.setState({
+			modal: !this.state.modal
+		});
+	};
+
 	render() {
 		const { user } = this.props;
 
+		let favoritesList = [];
+
+		if (user.favoriteMovies.length > 0) {
+			favoritesList = user.favoriteMovies.map((movie, i) => (
+				<li key={i}>{movie}</li>
+			));
+		}
+
 		return (
 			<>
-				<button
-					type="button"
-					className="btn btn-primary"
-					data-toggle="modal"
-					data-target="#FavoritesModal"
-				>
+				<Button color="primary" onClick={this.toggle}>
 					{user.name}'s Favorites
-				</button>
+				</Button>
 				{/* modal */}
-				<div
-					className="modal fade"
-					id="FavoritesModal"
-					tabIndex="-1"
-					role="dialog"
-					aria-labelledby="exampleModalCenterTitle"
-					aria-hidden="true"
+				<Modal
+					isOpen={this.state.modal}
+					toggle={this.toggle}
+					className={this.props.className}
 				>
-					<div className="modal-dialog modal-dialog-centered" role="document">
-						<div className="modal-content">
-							<div className="modal-header bg-info">
-								<h5 className="modal-title text-white">Favorite movies</h5>
-							</div>
+					<ModalHeader className="bg-info text-white">Favorites</ModalHeader>
 
-							{/* Modal body */}
-							<div className="modal-body">
-								{/* Form  */}
-								Favorites go here
-								<button
-									type="button"
-									className="btn btn-lg btn-danger w-100"
-									data-dismiss="modal"
-								>
-									Close
-								</button>
-								{/* /Form */}
-							</div>
-							{/* /modal body */}
-						</div>
-					</div>
-				</div>
+					{/* Modal body */}
+					<ModalBody>
+						{favoritesList.length > 0 ? (
+							<ul>{favoritesList}</ul>
+						) : (
+							'You do not have any favorites.'
+						)}
+
+						<hr />
+						{/* Close button */}
+						<Button
+							type="button"
+							color="danger"
+							className="btn-lg w-100"
+							onClick={this.toggle}
+						>
+							Close
+						</Button>
+					</ModalBody>
+				</Modal>
 			</>
 		);
 	}

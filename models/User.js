@@ -64,12 +64,12 @@ UserSchema.statics.authenticate = function(email, password, callback) {
 					(err, token) => {
 						if (err) callback(err);
 						const data = {
-							success: true,
 							token,
 							user: {
 								id: user.id,
 								name: user.name,
-								emailAddress: user.emailAddress
+								emailAddress: user.emailAddress,
+								favoriteMovies: user.favoriteMovies
 							}
 						};
 

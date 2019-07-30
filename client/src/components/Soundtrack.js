@@ -1,23 +1,30 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getSoundtrack } from '../actions/soundtrackActions';
 import PropTypes from 'prop-types';
 import Iframe from 'react-iframe';
 
+// Redux actions
+import { getSoundtrack } from '../actions/soundtrackActions';
+
+// App components
 import SearchError from './SearchError';
+
+// Reactstrap compnents
+import { Row, Col } from 'reactstrap';
 
 class Soundtrack extends Component {
 	render() {
 		const { soundtrack } = this.props.soundtrack;
 
 		return (
-			<React.Fragment>
+			<>
 				{/* Results heading */}
-				<div className="row bg-secondary">
-					<div className="col text-center">
+				<Row className="bg-secondary">
+					<Col className="text-center">
 						<h2 className="display-4">Soundtrack</h2>
-					</div>
-				</div>
+					</Col>
+				</Row>
 
 				{/* Conditional to show loading status */}
 				{soundtrack.loading ? 'Loading' : ''}
@@ -29,8 +36,8 @@ class Soundtrack extends Component {
 
 				{/* Displays movie information if there is data */}
 				{soundtrack.data.id && (
-					<div className="row my-3">
-						<div className="col text-center">
+					<Row className="my-3">
+						<Col className="text-center">
 							<Iframe
 								url={`https://open.spotify.com/embed/album/${
 									soundtrack.data.id
@@ -40,10 +47,10 @@ class Soundtrack extends Component {
 								id="spotify"
 								display="initial"
 							/>
-						</div>
-					</div>
+						</Col>
+					</Row>
 				)}
-			</React.Fragment>
+			</>
 		);
 	}
 }

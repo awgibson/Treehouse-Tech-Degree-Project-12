@@ -1,9 +1,14 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+// Redux Actions
 import { getMovie } from '../actions/movieActions';
 import { getSoundtrack } from '../actions/soundtrackActions';
 
-import PropTypes from 'prop-types';
+// Reactstrap Compnoents
+import { Row, Col, Form, Input } from 'reactstrap';
 
 class Search extends Component {
 	state = {
@@ -24,11 +29,11 @@ class Search extends Component {
 
 	render() {
 		return (
-			<div className="row bg-info py-2">
-				<div className="col-sm">
-					<form className="text-center " onSubmit={this.onSubmit}>
-						<input
-							className="form-control form-control-lg w-75 d-inline"
+			<Row className="bg-info py-2">
+				<Col>
+					<Form className="text-center " onSubmit={this.onSubmit}>
+						<Input
+							className="form-control-lg w-75 d-inline"
 							type="text"
 							placeholder="Search for a movie"
 							aria-label="Search for a movie"
@@ -36,9 +41,9 @@ class Search extends Component {
 							name="search"
 							onChange={this.onChange}
 						/>
-					</form>
-				</div>
-			</div>
+					</Form>
+				</Col>
+			</Row>
 		);
 	}
 }

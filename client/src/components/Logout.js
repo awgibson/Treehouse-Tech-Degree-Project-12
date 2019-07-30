@@ -1,19 +1,21 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { logout } from '../actions/authActions';
 import PropTypes from 'prop-types';
+
+// Redux Actions
+import { logout } from '../actions/authActions';
+
+// Reactstrap Components
+import { Button } from 'reactstrap';
 
 export class Logout extends Component {
 	render() {
 		return (
 			<>
-				<button
-					type="button"
-					className="btn btn-danger"
-					onClick={this.props.logout}
-				>
+				<Button color="danger" onClick={this.props.logout}>
 					Logout
-				</button>
+				</Button>
 			</>
 		);
 	}

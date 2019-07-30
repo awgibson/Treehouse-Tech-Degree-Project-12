@@ -1,6 +1,5 @@
 import { GET_SOUNDTRACK, SOUNDTRACK_LOADING } from './types';
 import axios from 'axios';
-import keys from '../config/keys';
 
 export const getSoundtrack = search => dispatch => {
 	dispatch(setItemsLoading());

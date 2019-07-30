@@ -1,12 +1,17 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// App Components
 import Login from './modals/Login';
 import SignUp from './modals/SignUp';
 import Favorites from './modals/Favorites';
 import Search from './Search';
 import Logout from './Logout';
+
+// React Strap Components
+import { Row, Col, ButtonGroup } from 'reactstrap';
 
 class Navbar extends Component {
 	render() {
@@ -26,23 +31,26 @@ class Navbar extends Component {
 			</>
 		);
 		return (
-			<div>
-				<div className="row bg-dark p-4">
-					<div className="col-sm text-center">
+			<>
+				{/* Banner */}
+				<Row className="bg-dark p-4">
+					<Col sm="12" className="text-center">
 						<h1 className="text-white display-1">MovieInfo</h1>
-					</div>
-				</div>
+					</Col>
+				</Row>
 
+				{/* Search bar */}
 				<Search />
 
-				<div className="row bg-info pb-2">
-					<div className="col-sm text-center">
-						<div className="btn-group btn-group-lg" role="group">
+				{/* Nav buttons */}
+				<Row className="bg-info pb-2">
+					<Col sm="12" className="text-center">
+						<ButtonGroup size="lg" role="group">
 							{isAuthenticated ? authNav : guestNav}
-						</div>
-					</div>
-				</div>
-			</div>
+						</ButtonGroup>
+					</Col>
+				</Row>
+			</>
 		);
 	}
 }

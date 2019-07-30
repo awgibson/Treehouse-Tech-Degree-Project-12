@@ -1,22 +1,29 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMovie } from '../actions/movieActions';
 import PropTypes from 'prop-types';
 
+// Redux actions
+import { getMovie } from '../actions/movieActions';
+
+// App componenets
 import SearchError from './SearchError';
+
+// Reactstrap Components
+import { Row, Col } from 'reactstrap';
 
 class Movie extends Component {
 	render() {
 		const { movie } = this.props.movie;
 
 		return (
-			<React.Fragment>
+			<>
 				{/* Results heading */}
-				<div className="row bg-secondary">
-					<div className="col text-center">
+				<Row className="bg-secondary">
+					<Col className="text-center">
 						<h2 className="display-4">Results</h2>
-					</div>
-				</div>
+					</Col>
+				</Row>
 
 				{/* Conditional to show loading status */}
 				{movie.loading ? 'Loading' : ''}
@@ -28,12 +35,12 @@ class Movie extends Component {
 
 				{/* Displays movie information if there is data */}
 				{movie.data && (
-					<div className="row my-3">
-						<div className="col text-center">
-							<img src={movie.data.Poster} />
-						</div>
+					<Row className="my-3">
+						<Col className="text-center">
+							<img src={movie.data.Poster} alt={movie.data.Title} />
+						</Col>
 
-						<div className="col-6">
+						<Col md="6">
 							<h3 className="mb-2 ">{movie.data.Title}</h3>
 							<hr />
 							<ul className="list-unstyled">
@@ -46,10 +53,10 @@ class Movie extends Component {
 									{movie.data.Director}
 								</li>
 							</ul>
-						</div>
-					</div>
+						</Col>
+					</Row>
 				)}
-			</React.Fragment>
+			</>
 		);
 	}
 }

@@ -1,11 +1,17 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getGiphy } from '../actions/giphyActions';
 import PropTypes from 'prop-types';
 
-import Gif from './Gif';
+// Redux actions
+import { getGiphy } from '../actions/giphyActions';
 
+// App Components
+import Gif from './Gif';
 import SearchError from './SearchError';
+
+// Reactstrap Components
+import { Row, Col } from 'reactstrap';
 
 class Gifs extends Component {
 	render() {
@@ -15,18 +21,25 @@ class Gifs extends Component {
 
 		if (gifs.length > 0) {
 			gifList = gifs.map(gif => (
-				<Gif id={gif.id} image={gif.images.fixed_width.url} url={gif.url} />
+				<Gif
+					id={gif.id}
+					image={gif.images.fixed_width.url}
+					url={gif.url}
+					alt={gif.title}
+					key={gif.id}
+				/>
 			));
 		}
 
 		return (
-			<React.Fragment>
+			<>
 				{/* Results heading */}
-				<div className="row bg-secondary">
-					<div className="col text-center">
+
+				<Row className="bg-secondary">
+					<Col className="text-center">
 						<h2 className="display-4">GIPHY</h2>
-					</div>
-				</div>
+					</Col>
+				</Row>
 
 				{/* Conditional to show loading status */}
 				{giphy.loading ? 'Loading' : ''}
@@ -40,7 +53,7 @@ class Gifs extends Component {
 				{giphy.data.data && (
 					<div className="container row my-3 text-center">{gifList}</div>
 				)}
-			</React.Fragment>
+			</>
 		);
 	}
 }

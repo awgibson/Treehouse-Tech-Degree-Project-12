@@ -1,6 +1,5 @@
 import { GET_GIPHY, GIPHY_LOADING } from './types';
 import axios from 'axios';
-import keys from '../config/keys';
 
 export const getGiphy = search => dispatch => {
 	dispatch(setItemsLoading());

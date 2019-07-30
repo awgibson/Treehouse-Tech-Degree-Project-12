@@ -1,11 +1,38 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// Redux actions
 import { register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
+// Reactstrap components
+import {
+	Button,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	Alert,
+	Form,
+	FormGroup,
+	Label,
+	Input
+} from 'reactstrap';
+
 class SignUp extends Component {
-	state = {};
+	state = {
+		modal: false
+	};
+
+	toggle = () => {
+		// Clear errors
+		this.props.clearErrors();
+		//Reverses modal state
+		this.setState({
+			modal: !this.state.modal
+		});
+	};
 
 	onChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -28,12 +55,19 @@ class SignUp extends Component {
 	};
 
 	componentDidUpdate(prevProps) {
-		const { error } = this.props;
+		const { error, isAuthenticated } = this.props;
 		if (error !== prevProps.error) {
 			if (error.id === 'REGISTER_FAIL') {
 				this.setState({ message: error.message });
 			} else {
 				this.setState({ message: null });
+			}
+		}
+
+		// If authenticated, close modal
+		if (this.state.modal) {
+			if (isAuthenticated) {
+				this.toggle();
 			}
 		}
 	}
@@ -42,99 +76,89 @@ class SignUp extends Component {
 		return (
 			// button
 			<>
-				<button
-					type="button"
-					className="btn btn-danger"
-					data-toggle="modal"
-					data-target="#SignUpModal"
-				>
+				<Button color="danger" onClick={this.toggle}>
 					Create Account
-				</button>
+				</Button>
 				{/* modal */}
-				<div
-					className="modal fade"
-					id="SignUpModal"
-					tabIndex="-1"
-					role="dialog"
-					aria-labelledby="exampleModalCenterTitle"
-					aria-hidden="true"
+				<Modal
+					isOpen={this.state.modal}
+					toggle={this.toggle}
+					className={this.props.className}
 				>
-					<div className="modal-dialog modal-dialog-centered" role="document">
-						<div className="modal-content">
-							<div className="modal-header bg-info">
-								<h5 className="modal-title text-white">Create An Account</h5>
-							</div>
+					<ModalHeader className="bg-info text-white">
+						Create An Account
+					</ModalHeader>
 
-							{/* Modal body */}
-							<div className="modal-body">
-								{/* Displays errors if there is an error */}
-								{this.state.message ? (
-									<div className="alert alert-danger" role="alert">
-										{this.state.message}
-									</div>
-								) : null}
+					{/* Modal body */}
+					<ModalBody>
+						{/* Displays errors if there is an error */}
+						{this.state.message ? (
+							<Alert color="danger">{this.state.message}</Alert>
+						) : null}
 
-								{/* Form  */}
-								<form onSubmit={this.onSubmit}>
-									<div className="form-group">
-										<label htmlFor="name">Name: </label>
-										<input
-											type="text"
-											className="form-control"
-											id="name"
-											placeholder="Enter name"
-											name="name"
-											onChange={this.onChange}
-										/>
-									</div>
+						{/* Form  */}
+						<Form onSubmit={this.onSubmit}>
+							{/* Name field */}
+							<FormGroup>
+								<Label for="name">Name: </Label>
+								<Input
+									type="text"
+									id="name"
+									placeholder="Enter name"
+									name="name"
+									onChange={this.onChange}
+								/>
+							</FormGroup>
 
-									<div className="form-group">
-										<label htmlFor="emailAddress">Email address: </label>
-										<input
-											type="email"
-											className="form-control"
-											id="emailAddressSignUp"
-											aria-describedby="emailHelp"
-											placeholder="Enter email"
-											name="emailAddress"
-											onChange={this.onChange}
-										/>
-									</div>
-									<div className="form-group">
-										<label htmlFor="password">Password: </label>
-										<input
-											type="password"
-											className="form-control"
-											id="passwordSignUp"
-											placeholder="Password"
-											name="password"
-											onChange={this.onChange}
-										/>
-									</div>
-									<hr />
-									<button
-										type="submit"
-										className="btn btn-lg btn-success w-100 mb-3"
-										id="registrationSubmit"
-									>
-										Submit
-									</button>
-									<button
-										type="button"
-										className="btn btn-lg btn-danger w-100"
-										data-dismiss="modal"
-										onClick={this.props.clearErrors}
-									>
-										Close
-									</button>
-								</form>
+							{/* Email address field */}
+							<FormGroup>
+								<Label for="emailAddress">Email address: </Label>
+								<Input
+									type="email"
+									id="emailAddressSignUp"
+									aria-describedby="emailHelp"
+									placeholder="Enter email"
+									name="emailAddress"
+									onChange={this.onChange}
+								/>
+							</FormGroup>
 
-								{/* /Form */}
-							</div>
-							{/* /modal body */}
-						</div>
-					</div>
-				</div>
+							{/* Password field */}
+							<FormGroup>
+								<Label for="password">Password: </Label>
+								<Input
+									type="password"
+									id="passwordSignUp"
+									placeholder="Password"
+									name="password"
+									onChange={this.onChange}
+								/>
+							</FormGroup>
+
+							<hr />
+
+							{/* Submit button */}
+							<Button
+								type="submit"
+								color="success"
+								className="btn-lg w-100 mb-3"
+								id="registrationSubmit"
+							>
+								Submit
+							</Button>
+
+							{/* Close button */}
+							<Button
+								type="button"
+								color="danger"
+								className="btn-lg w-100"
+								onClick={this.toggle}
+							>
+								Close
+							</Button>
+						</Form>
+					</ModalBody>
+				</Modal>
 			</>
 		);
 	}
