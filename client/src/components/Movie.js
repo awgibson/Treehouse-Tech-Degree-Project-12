@@ -5,16 +5,18 @@ import PropTypes from 'prop-types';
 
 // Redux actions
 import { getMovie } from '../actions/movieActions';
+import { updateFavorites } from '../actions/favoritesActions';
 
 // App componenets
 import SearchError from './SearchError';
 
 // Reactstrap Components
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 
 class Movie extends Component {
 	render() {
 		const { movie } = this.props.movie;
+		const { isAuthenticated } = this.props;
 
 		return (
 			<>
@@ -53,6 +55,14 @@ class Movie extends Component {
 									{movie.data.Director}
 								</li>
 							</ul>
+							{isAuthenticated && (
+								<Button
+									color="success"
+									onClick={() => this.props.updateFavorites(movie.data.Title)}
+								>
+									Add To Favorites
+								</Button>
+							)}
 						</Col>
 					</Row>
 				)}
@@ -63,14 +73,16 @@ class Movie extends Component {
 
 Movie.propTypes = {
 	getMovie: PropTypes.func.isRequired,
-	movie: PropTypes.object.isRequired
+	movie: PropTypes.object.isRequired,
+	updateFavorites: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	movie: state
+	movie: state,
+	isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
 	mapStateToProps,
-	{ getMovie }
+	{ getMovie, updateFavorites }
 )(Movie);

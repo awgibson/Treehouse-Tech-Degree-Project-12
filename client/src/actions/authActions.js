@@ -9,7 +9,8 @@ import {
 	LOGIN_FAIL,
 	LOGOUT_SUCCESS,
 	REGISTER_SUCCESS,
-	REGISTER_FAIL
+	REGISTER_FAIL,
+	UPDATE_FAVORITES
 } from './types';
 
 // See if JWT token exists and load user if it does exist
@@ -20,12 +21,17 @@ export const loadUser = () => (dispatch, getState) => {
 
 	axios
 		.get('/api/user', tokenConfig(getState))
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: USER_LOADED,
 				payload: res.data
-			})
-		)
+			});
+			dispatch({
+				type: UPDATE_FAVORITES,
+				payload: res.data.favoriteMovies
+			});
+		})
+
 		.catch(err => {
 			dispatch(returnErrors(err.response.data, err.response.status));
 			dispatch({
@@ -48,12 +54,17 @@ export const register = ({ name, emailAddress, password }) => dispatch => {
 
 	axios
 		.post('/api/user/register', body, config)
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: REGISTER_SUCCESS,
 				payload: res.data
-			})
-		)
+			});
+
+			dispatch({
+				type: UPDATE_FAVORITES,
+				payload: []
+			});
+		})
 		.catch(err => {
 			dispatch(
 				returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
@@ -78,12 +89,17 @@ export const login = ({ emailAddress, password }) => dispatch => {
 
 	axios
 		.post('/api/user/auth', body, config)
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: res.data
-			})
-		)
+			});
+
+			dispatch({
+				type: UPDATE_FAVORITES,
+				payload: res.data.user.favoriteMovies
+			});
+		})
 		.catch(err => {
 			dispatch(
 				returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')

@@ -16,6 +16,8 @@ import {
 	Input
 } from 'reactstrap';
 
+import { getFavorites } from '../../actions/favoritesActions';
+
 class Favorites extends Component {
 	state = {
 		modal: false
@@ -29,12 +31,12 @@ class Favorites extends Component {
 	};
 
 	render() {
-		const { user } = this.props;
+		const { user, favorites } = this.props;
 
 		let favoritesList = [];
 
-		if (user.favoriteMovies.length > 0) {
-			favoritesList = user.favoriteMovies.map((movie, i) => (
+		if (favorites.data) {
+			favoritesList = favorites.data.map((movie, i) => (
 				<li key={i}>{movie}</li>
 			));
 		}
@@ -78,14 +80,17 @@ class Favorites extends Component {
 }
 
 const mapStateToProps = state => ({
-	user: state.auth.user
+	user: state.auth.user,
+	favorites: state.favorites
 });
 
 Favorites.propTypes = {
-	user: PropTypes.object
+	user: PropTypes.object,
+	getFavorites: PropTypes.func.isRequired,
+	favorites: PropTypes.object
 };
 
 export default connect(
 	mapStateToProps,
-	null
+	{ getFavorites }
 )(Favorites);

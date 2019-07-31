@@ -63,10 +63,10 @@ router.post('/register', (req, res, next) => {
 	});
 });
 
-// PUT /user
+// PUT /user/favorites
 // Updates user's movie favorites
 router.put('/favorites', middleware.auth, (req, res, next) => {
-	console.log(req.user.id);
+	console.log(req);
 	User.findByIdAndUpdate(
 		req.user.id,
 		{ $addToSet: { favoriteMovies: req.body.favoriteMovies } },
@@ -79,7 +79,10 @@ router.put('/favorites', middleware.auth, (req, res, next) => {
 				err.status = 404;
 				next(err);
 			} else {
-				res.status(204).end();
+				res
+					.json(user.favoriteMovies)
+					.status(204)
+					.end();
 			}
 		}
 	);
