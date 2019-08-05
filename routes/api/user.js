@@ -65,8 +65,7 @@ router.post('/register', (req, res, next) => {
 
 // PUT /user/favorites
 // Updates user's movie favorites
-router.put('/favorites', middleware.auth, (req, res, next) => {
-	console.log(req);
+router.put('/favorites/add', middleware.auth, (req, res, next) => {
 	User.findByIdAndUpdate(
 		req.user.id,
 		{ $addToSet: { favoriteMovies: req.body.favoriteMovies } },
@@ -81,6 +80,34 @@ router.put('/favorites', middleware.auth, (req, res, next) => {
 			} else {
 				res
 					.json(user.favoriteMovies)
+					.status(204)
+					.end();
+			}
+		}
+	);
+});
+
+// PUT /user/favorites
+// Deletes a movie from the favorite movies array
+router.put('/favorites/remove', middleware.auth, (req, res, next) => {
+	User.findByIdAndUpdate(
+		req.user.id,
+		{ $pull: { favoriteMovies: req.body.favoriteMovies } },
+
+		(err, user) => {
+			if (err) {
+				next(err);
+			} else if (!user) {
+				const err = new Error('User does not exist');
+				err.status = 404;
+				next(err);
+			} else {
+				res
+					.json(
+						user.favoriteMovies.filter(
+							movie => movie !== req.body.favoriteMovies
+						)
+					)
 					.status(204)
 					.end();
 			}

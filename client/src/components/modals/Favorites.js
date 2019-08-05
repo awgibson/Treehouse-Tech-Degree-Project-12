@@ -4,19 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Reactstrap components
-import {
-	Button,
-	Modal,
-	ModalHeader,
-	ModalBody,
-	Alert,
-	Form,
-	FormGroup,
-	Label,
-	Input
-} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
-import { getFavorites } from '../../actions/favoritesActions';
+// Redux Actions
+import { deleteFavorite } from '../../actions/favoritesActions';
+import { getMovie } from '../../actions/movieActions';
 
 class Favorites extends Component {
 	state = {
@@ -30,6 +22,15 @@ class Favorites extends Component {
 		});
 	};
 
+	onDelete = movie => {
+		this.props.deleteFavorite(movie);
+	};
+
+	onView = movie => {
+		this.props.getMovie(movie);
+		this.toggle();
+	};
+
 	render() {
 		const { user, favorites } = this.props;
 
@@ -37,7 +38,29 @@ class Favorites extends Component {
 
 		if (favorites.data) {
 			favoritesList = favorites.data.map((movie, i) => (
-				<li key={i}>{movie}</li>
+				<>
+					<div className="row my-2">
+						<div className="col-6">
+							<li key={i}>{movie}</li>
+						</div>
+						<div className="col-6">
+							<Button
+								className="float-right btn-sm ml-2"
+								color="danger"
+								onClick={() => this.onDelete(movie)}
+							>
+								Delete
+							</Button>
+							<Button
+								className="float-right btn-sm"
+								color="success"
+								onClick={() => this.onView(movie)}
+							>
+								View
+							</Button>
+						</div>
+					</div>
+				</>
 			));
 		}
 
@@ -86,11 +109,12 @@ const mapStateToProps = state => ({
 
 Favorites.propTypes = {
 	user: PropTypes.object,
-	getFavorites: PropTypes.func.isRequired,
-	favorites: PropTypes.object
+	favorites: PropTypes.object,
+	deleteFavorite: PropTypes.func.isRequired,
+	getMovie: PropTypes.func.isRequired
 };
 
 export default connect(
 	mapStateToProps,
-	{ getFavorites }
+	{ deleteFavorite, getMovie }
 )(Favorites);
