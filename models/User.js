@@ -79,7 +79,7 @@ UserSchema.statics.authenticate = function(email, password, callback) {
 			} else {
 				// If there is no result, that means the passwords did not match.
 				// Throw a 401 error and pass to the callback
-				const err = new Error('Passwords do not match.');
+				const err = new Error('Password is incorrect.');
 				err.status = 401;
 				return callback(err);
 			}
