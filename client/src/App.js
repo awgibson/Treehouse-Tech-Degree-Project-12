@@ -12,6 +12,7 @@ import Results from './components/Results';
 
 // Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './custom.css';
 
 // React Strap Components
 import { Container } from 'reactstrap';
@@ -24,7 +25,10 @@ class App extends Component {
 		return (
 			<Provider store={store}>
 				{/* <div className="container h-100 bg-light"> */}
-				<Container className="bg-light mt-3" style={{ minHeight: '800px' }}>
+				<Container
+					className="bg-light mt-3 mb-3 border border-dark drop-shadow"
+					style={{ minHeight: '800px' }}
+				>
 					<Navbar />
 					<Results />
 				</Container>

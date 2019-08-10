@@ -54,6 +54,14 @@ class Movie extends Component {
 									<strong>Director: </strong>
 									{movie.data.Director}
 								</li>
+								<li>
+									<strong>Writer: </strong>
+									{movie.data.Writer}
+								</li>
+								<li>
+									<strong>Actors: </strong>
+									{movie.data.Actors}
+								</li>
 							</ul>
 							{isAuthenticated && (
 								<Button

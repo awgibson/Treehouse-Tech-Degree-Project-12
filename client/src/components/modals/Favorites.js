@@ -38,10 +38,10 @@ class Favorites extends Component {
 
 		if (favorites.data) {
 			favoritesList = favorites.data.map((movie, i) => (
-				<>
+				<div key={`${i}`}>
 					<div className="row my-2">
 						<div className="col-6">
-							<li key={i}>{movie}</li>
+							<li>{movie}</li>
 						</div>
 						<div className="col-6">
 							<Button
@@ -60,13 +60,13 @@ class Favorites extends Component {
 							</Button>
 						</div>
 					</div>
-				</>
+				</div>
 			));
 		}
 
 		return (
 			<>
-				<Button color="primary" onClick={this.toggle}>
+				<Button color="primary border-3 border-dark" onClick={this.toggle}>
 					{user.name}'s Favorites
 				</Button>
 				{/* modal */}

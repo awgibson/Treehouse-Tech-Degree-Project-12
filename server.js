@@ -10,7 +10,8 @@ const port = process.env.PORT || 3001;
 // Connect to database
 mongoose.connect('mongodb://localhost:27017/th-movie-project', {
 	useNewUrlParser: true,
-	useCreateIndex: true
+	useCreateIndex: true,
+	useFindAndModify: false
 });
 
 // Set console messages for connection status // errors

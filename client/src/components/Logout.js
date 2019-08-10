@@ -13,7 +13,7 @@ export class Logout extends Component {
 	render() {
 		return (
 			<>
-				<Button color="danger" onClick={this.props.logout}>
+				<Button color="danger border-3 border-dark" onClick={this.props.logout}>
 					Logout
 				</Button>
 			</>

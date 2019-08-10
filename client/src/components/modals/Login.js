@@ -74,7 +74,7 @@ class Login extends Component {
 	render() {
 		return (
 			<>
-				<Button color="success" onClick={this.toggle}>
+				<Button color="success border-3 border-dark" onClick={this.toggle}>
 					Login
 				</Button>
 				{/* modal */}

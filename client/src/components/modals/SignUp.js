@@ -76,7 +76,7 @@ class SignUp extends Component {
 		return (
 			// button
 			<>
-				<Button color="danger" onClick={this.toggle}>
+				<Button color="danger border-3 border-dark" onClick={this.toggle}>
 					Create Account
 				</Button>
 				{/* modal */}
