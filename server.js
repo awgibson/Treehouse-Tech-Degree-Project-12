@@ -16,7 +16,10 @@ mongoose.connect('mongodb://localhost:27017/th-movie-project', {
 // Set console messages for connection status // errors
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => console.log('Database connected...'));
+db.once('open', () => {
+	console.log('Database connected...');
+	app.emit('dbConnected');
+});
 
 // morgan gives us http request logging
 app.use(morgan('dev'));
@@ -49,4 +52,9 @@ app.use((err, req, res, next) => {
 	}
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => {
+	console.log(`Example app listening on port ${port}!`);
+	app.emit('serverStarted');
+});
+
+module.exports = app;
