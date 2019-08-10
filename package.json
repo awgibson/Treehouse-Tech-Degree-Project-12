@@ -10,7 +10,7 @@
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"test": "mocha",
 		"client-install": "npm install --prefix client",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
 	},
 	"keywords": [],
 	"author": "",
@@ -32,5 +32,8 @@
 		"mocha": "^6.2.0",
 		"nodemon": "^1.19.1",
 		"supertest": "^4.0.2"
+	},
+	"engines": {
+		"node": "10.15.3"
 	}
 }
