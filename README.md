@@ -16,6 +16,8 @@ Run npm install from the root of the server directory and from the root of the c
 
 You must have an API key obtained from [OMDb API](http://www.omdbapi.com), [Spotify](http://www.spotify.com), [GIPHY](http://www.giphy.com), and a jwtSecret you of your own choosing. Create a default.json file and place it a folder named config at the root of the server. Example below.
 
+If you want to use Redux tools, you will have to add window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() back to the store.js configuration. Removed this for github so it does not cause app to fail to display in other browsers
+
 ```
 {
 
