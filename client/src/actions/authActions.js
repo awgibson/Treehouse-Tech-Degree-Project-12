@@ -59,13 +59,14 @@ export const register = ({ name, emailAddress, password }) => dispatch => {
 				type: REGISTER_SUCCESS,
 				payload: res.data
 			});
-
+			// Updates the favorites
 			dispatch({
 				type: UPDATE_FAVORITES,
 				payload: []
 			});
 		})
 		.catch(err => {
+			// Sends errors to user interface
 			dispatch(
 				returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
 			);
@@ -94,7 +95,7 @@ export const login = ({ emailAddress, password }) => dispatch => {
 				type: LOGIN_SUCCESS,
 				payload: res.data
 			});
-
+			// Updates favorites
 			dispatch({
 				type: UPDATE_FAVORITES,
 				payload: res.data.user.favoriteMovies

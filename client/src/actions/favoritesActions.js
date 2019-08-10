@@ -27,6 +27,7 @@ export const updateFavorites = movie => dispatch => {
 	axios
 		.put('api/user/favorites/add', JSON.stringify(body), config)
 		.then(res =>
+			// Updates the favorites in the store
 			dispatch({
 				type: UPDATE_FAVORITES,
 				payload: res.data
@@ -73,6 +74,7 @@ export const deleteFavorite = movie => dispatch => {
 		);
 };
 
+// Get favorites
 export const getFavorites = movie => dispatch => {
 	dispatch(setItemsLoading);
 	// Headers for request
