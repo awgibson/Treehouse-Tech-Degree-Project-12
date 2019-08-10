@@ -36,6 +36,16 @@ app.use('/request/spotify', require('./routes/request/spotify'));
 app.use('/request/giphy', require('./routes/request/giphy'));
 app.use('/request/omdb', require('./routes/request/omdb'));
 
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+	// Set static folder
+	app.use(express.static('client/build'));
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
+
 // send 404 if no other route matched
 app.use((req, res) => {
 	res.status(404).json({
@@ -54,16 +64,6 @@ app.use((err, req, res, next) => {
 		res.status(err.status || 500).json(err.message);
 	}
 });
-
-// Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-	// Set static folder
-	app.use(express.static('client/build'));
-
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-	});
-}
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}!`);
