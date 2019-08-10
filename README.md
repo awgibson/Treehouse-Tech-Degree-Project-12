@@ -1,5 +1,7 @@
 # Treehouse Tech Degree Project 12
 
+[Heroku link of application](https://movieinfo-treehouse.herokuapp.com/)
+
 ## Capstone Project: Build Your Own Web Application
 
 This web app will allow a user to search for a movie. The search query will return movie information from the open movie database, attempt to find a Spotify soundtrack, and will also look for GIFs related to the movie.
@@ -53,6 +55,6 @@ You must have a local mongoDB installation or edit the server.js file to point t
 - **App successfully uses a relational or document-based database** - MongoDB is used to store users and help facilitate a login system.
 - **App is deployed to a hosting service like Heroku, OpenShift, AWS** - Deployed to Heroku
 - **Final project is in a GitHub Repo** - That's where we currently are
-- **Submits a public URL of the working app** - Included in project submission
+- **Submits a public URL of the working app** - https://movieinfo-treehouse.herokuapp.com/
 - **App runs successfully after running npm install and npm start in the local clone of the GitHub repo** - Follow config instructions above for app to work and look at additional scripts.
 - **No syntax errors and the app starts successfully / Write unit tests using Mocha.js and an assertion library to get exceeds** - The only errors present in console are related to Spotify. Even Spotify's own website has these exact same errors. No syntax errors from my own code that I have been able to see. - Tests were written to test the server-side API fetches.
